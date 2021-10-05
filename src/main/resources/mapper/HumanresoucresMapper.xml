@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.closematch.mapper.HumanresoucresMapper">
+
+    <resultMap id="BaseResultMap" type="com.home.closematch.entity.Humanresoucres">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="curPosition" column="cur_position" jdbcType="VARCHAR"/>
+            <result property="companyId" column="company_id" jdbcType="BIGINT"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,cur_position,
+        company_id,status,create_time,
+        update_time,is_delete
+    </sql>
+    <resultMap id="hrAboutInfoResultMap" type="com.home.closematch.entity.dto.HrCompanyDTO">
+        <result column="hrId" property="hrId"></result>
+        <result column="hrName" property="hrName"></result>
+        <result column="cur_position" property="curPosition"></result>
+        <result column="status" property="status"></result>
+        <result column="name" property="companyName"></result>
+        <result column="simple_name" property="simpleName"></result>
+        <result column="domain" property="domain"></result>
+        <result column="description" property="description"></result>
+        <result column="scale" property="scale"></result>
+        <result column="audit_status" property="auditStatus"></result>
+        <result column="is_delete" property="isDelete"></result>
+        <result column="username" property="username"></result>
+        <result column="account_id" property="accountId"></result>
+        <result column="company_id" property="hrCompanyId"></result>
+    </resultMap>
+    <select id="selectHrWithCompany" resultMap="hrAboutInfoResultMap">
+        select
+            cma.is_delete, cma.username, cma.id account_id,
+            cmh.id hrId, cmh.`name` hrName, cmh.cur_position, cmh.`status`, cmh.company_id,
+            cmc.*
+        from cm_humanresoucres cmh
+             left join cm_account cma on cmh.id=cma.user_id
+             left join cm_company cmc on cmh.company_id=cmc.id
+        where
+            cma.user_type=1
+    </select>
+</mapper>

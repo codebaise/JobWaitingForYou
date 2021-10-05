@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.closematch.mapper.Hr2staffCommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.home.closematch.entity.Hr2staffComment">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="hrId" column="hr_id" jdbcType="BIGINT"/>
+            <result property="staffId" column="staff_id" jdbcType="BIGINT"/>
+            <result property="comment" column="comment" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+            <result property="positionId" column="position_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,hr_id,staff_id,
+        comment,create_time,update_time,
+        is_delete,position_id
+    </sql>
+    <select id="selectSeekerPositionComments" resultType="com.home.closematch.entity.dto.SeekerPositionCommentDTO">
+        select hr.cur_position hrPosition, hrsc.`comment`, hrsc.create_time createTime
+        from
+            cm_hr2staff_comment hrsc,
+            cm_humanresoucres hr
+        where
+            hrsc.staff_id=#{seekerId} and
+            hr.id=hrsc.hr_id and
+            hrsc.position_id=#{positionId}
+    </select>
+</mapper>

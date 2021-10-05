@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.closematch.mapper.MessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.home.closematch.entity.Message">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="notifyId" column="notify_id" jdbcType="BIGINT"/>
+            <result property="senderId" column="sender_id" jdbcType="BIGINT"/>
+            <result property="reciverId" column="reciver_id" jdbcType="BIGINT"/>
+            <result property="title" column="content" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="isTimed" column="is_timed" jdbcType="INTEGER"/>
+            <result property="date" column="date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,notify_id,sender_id,
+        reciver_id,title,create_time,
+        update_time,is_delete,description,
+        is_timed,date
+    </sql>
+    <select id="getGlobalMessage" resultType="com.home.closematch.entity.dto.BaseMessageDTO">
+        select cmn.create_time, cmm.title, cmm.content
+        from
+            cm_notify cmn,
+            cm_message cmm
+        WHERE
+            cmm.notify_id = cmn.id and
+            cmn.type = "announcement"
+        ORDER BY create_time desc
+    </select>
+    <select id="getUserSelfMessageByAccountId" resultType="com.home.closematch.entity.dto.BaseMessageDTO">
+        select cmn.create_time, cmm.title, cmm.content
+        from
+            cm_notify cmn,
+            cm_message cmm
+        WHERE
+            cmm.reciver_id = #{accountId} and
+            cmm.notify_id = cmn.id and
+            cmn.type = "remind"
+        ORDER BY create_time desc
+    </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.home.closematch.mapper.JobSeekerMapper">
+
+    <resultMap id="BaseResultMap" type="com.home.closematch.entity.JobSeeker">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="userIdentity" column="user_identity" jdbcType="INTEGER"/>
+            <result property="currentStatus" column="current_status" jdbcType="INTEGER"/>
+            <result property="expectPosition" column="expect_position" jdbcType="VARCHAR"/>
+            <result property="expectCity" column="expect_city" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+            <result property="advantage" column="advantage" jdbcType="VARCHAR"/>
+            <result property="minExpectSalary" column="min_expect_salary" jdbcType="DECIMAL"/>
+            <result property="maxExpectSalary" column="max_expect_salary" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,age,
+        user_identity,current_status,expect_position,
+        expect_city,create_time,update_time,
+        is_delete,advantage,min_expect_salary,
+        max_expect_salary
+    </sql>
+
+    <resultMap id="seekAcSchoolDto" type="com.home.closematch.entity.dto.SeekerAccountSchoolDTO">
+        <id column="id" property="seekerId"></id>
+        <result column="ac_id" property="accountId"></result>
+        <result column="ac_username" property="username"></result>
+
+        <result column="name" property="name"></result>
+        <result column="age" property="age"></result>
+        <result column="user_identity" property="userIdentity"></result>
+        <result column="current_status" property="currentStatus"></result>
+        <result column="expect_position" property="expectPosition"></result>
+        <result column="expect_city" property="expectCity"></result>
+        <result column="is_delete" property="isDelete"></result>
+
+        <result column="school_name" property="schoolName"></result>
+        <result column="education" property="education"></result>
+        <result column="domain" property="domain"></result>
+        <result column="start_time" property="startTime"></result>
+        <result column="end_time" property="endTime"></result>
+
+
+
+    </resultMap>
+    <select id="selectSeekerListWithAccount" resultMap="seekAcSchoolDto">
+        SELECT
+            ac.id ac_id, ac.username ac_username, ac.is_delete,
+            sk.*,
+            ss.school_name, ss.education, ss.domain,ss.start_time, ss.end_time
+        FROM
+            cm_account ac,
+            cm_job_seeker sk,
+            cm_seeker_school ss
+        WHERE
+            ac.user_id = sk.id and
+            ss.user_id = sk.id
+    </select>
+    <select id="selectSeekerDeliverWithPosition" resultType="com.home.closematch.entity.Position">
+        select cp.*
+        from
+            cm_seeker_deliver csd,
+            cm_position cp
+        where
+            csd.seek_id = #{userId} and
+            csd.position_id = cp.id
+    </select>
+</mapper>
