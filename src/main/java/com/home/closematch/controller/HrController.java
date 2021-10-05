@@ -16,6 +16,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * hr controller
+ */
 @Api(tags = "Hr相关操作")
 @RestController
 public class HrController {
