@@ -48,6 +48,7 @@ public interface JobSeekerService extends IService<JobSeeker> {
 
     /**
      * 检查当前用户和hr的关系
+     * 只有在没有处理的时候才能进行求职者的信息查看, 如果已经拒绝了该求职用户, 那么无法再查看当前求职者的信息
      * @return 如果存在则返回一个SeekerDeliver对象
      */
     SeekerDeliver checkSeekerRelationOfHr(Long hrId, Long deliverId);

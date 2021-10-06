@@ -35,7 +35,7 @@ public interface CompanyService extends IService<Company> {
 
     /**
      * admin
-     * 通过公司信息审核
+     * 通过公司信息审核, 审核通过
      */
     void accessCompanyByCompanyId(Long companyId);
 
@@ -52,6 +52,7 @@ public interface CompanyService extends IService<Company> {
 
     /**
      * 获取公司的几个hr信息, 默认只拉取三个即可
+     * 前台展示的信息
      */
     List<CompanyHrVo> getCompanyHrs(Long companyId);
 
@@ -65,7 +66,7 @@ public interface CompanyService extends IService<Company> {
      * @param page
      * @return
      */
-    PageCompanys getCompanysList(int page);
+    PageCompanys getCompanyList(int page);
 
     /**
      * 通过positionId获取公司详情信息

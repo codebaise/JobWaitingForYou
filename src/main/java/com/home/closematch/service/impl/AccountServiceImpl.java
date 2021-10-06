@@ -33,8 +33,6 @@ implements AccountService, UserDetailsService {
 
     @Autowired
     private AccountMapper accountMapper;
-
-
     @Autowired
     private JobSeekerService jobSeekerService;
     @Autowired
@@ -55,6 +53,12 @@ implements AccountService, UserDetailsService {
         return account;
     }
 
+    /**
+     * 跟随/login 接口一起过时
+     * @param account
+     * @return
+     */
+    @Deprecated
     @Override
     public String login(Account account) {
         Account accountObj = accountMapper.selectOne(new QueryWrapper<Account>().eq("username", account.getUsername()));
@@ -80,6 +84,7 @@ implements AccountService, UserDetailsService {
         // 创建用户的同时已经创建过了, 所以不是null
 //        if (account.getUserId() == null)
 //            return new UserBaseInfoVo(null, account.getUserType(), roles, 0, homeLink);
+        // 用户信息填充等级, 通过这个等级来判断用户信息完善程度
         Integer infoFillLevel = 2;
         // 通过用户类型进行区分
         // seeker
@@ -118,11 +123,19 @@ implements AccountService, UserDetailsService {
             return AccountUtils.USER_INFO_FILL_LEVEL_HR_SUCCESS;
     }
 
+    /**
+     * 查询所有的用户, 直接使用mybatis-plus 获取的话, 会忽略已经被逻辑删除的记录
+     */
     @Override
     public Account getAccountIgnoreIsDelete(Long accountId) {
         return accountMapper.selectAccountIgnoreIsDelete(accountId);
     }
 
+    /**
+     * 更新delete 状态
+     * @param accountId
+     * @param val
+     */
     @Override
     public void updateIsDeleteById(Long accountId, Integer val) {
         accountMapper.updateIsDeleteById(accountId, val);

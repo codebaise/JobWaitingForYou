@@ -12,6 +12,7 @@ import java.util.List;
  *
  */
 public interface NotifyService extends IService<Notify> {
+    // 全局通知
     void sendGlobalMessage(NotifyMessageVo notifyMessageVo);
 
     /**

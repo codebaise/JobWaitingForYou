@@ -4,7 +4,7 @@ public class NotifyUtils {
     private NotifyUtils() {
     }
 
-    //        消息类型:announcement公告/remind提醒/message私信
+    // 消息类型:announcement公告/remind提醒/message私信
     public static final String TYPE_GLOBAL_MESSAGE = "announcement";
     public static final String TYPE_REMIND_MESSAGE = "remind";
     public static final String TYPE_PRIVATE_MESSAGE = "message";

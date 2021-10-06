@@ -21,6 +21,9 @@ public class VerifyUtils {
         out.close();
     }
 
+    /**
+     * 生成验证码
+     */
     public static String generateVerifyCode () {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < VerifyUtils.VERIFY_CODE_LENGTH; i++)
@@ -28,6 +31,10 @@ public class VerifyUtils {
         return result.toString();
     }
 
+    /**
+     * 验证验证码
+     * 因为是将email和code放入和hashmap, 则使用get就行
+     */
     public static boolean inspectCode(String email, String code){
         String trimEmail = email.trim();
         String s = VerifyUtils.verifyCodeMap.get(trimEmail);

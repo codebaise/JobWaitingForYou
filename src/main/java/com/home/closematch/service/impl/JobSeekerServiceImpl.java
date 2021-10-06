@@ -40,25 +40,34 @@ implements JobSeekerService{
     private PositionService positionService;
 
 
-
+    /**
+     * 根据求职者id获取当前求职者已经递交的求职申请
+     */
     @Override
     public List<Position> getSeekerDeliverWithPosition(Long seekerId) {
         return jobSeekerMapper.selectSeekerDeliverWithPosition(seekerId);
     }
 
+    /**
+     * 获取求职者工作经历
+     */
     @Override
     public List<SeekerExperience> getSeekerWorkExperiences(Long seekerId) {
         return seekerExperienceService.list(new QueryWrapper<SeekerExperience>().eq("user_id", seekerId));
 //        return seekerExperienceMapper.selectList(new QueryWrapper<SeekerExperience>().eq("user_id", seekerId));
     }
 
+    /**
+     * 获取所有的求职者账户, 教学信息 Admin 行为
+     */
     @Override
     public IPage<SeekerAccountSchoolDTO> getSeekerListWithAccount(Integer page) {
         return jobSeekerMapper.selectSeekerListWithAccount(new Page<>(page, CommonUtils.perPageSize));
     }
 
     /**
-     * 检查当前用户和hr的关系tr
+     * 检查当前用户和hr的关系
+     * 只有在没有处理的时候才能进行求职者的信息查看, 如果已经拒绝了该求职用户, 那么无法再查看当前求职者的信息
      */
     @Override
     public SeekerDeliver checkSeekerRelationOfHr(Long hrId, Long deliverId) {

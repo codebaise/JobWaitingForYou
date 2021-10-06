@@ -18,10 +18,17 @@ public interface AccountService extends IService<Account> {
      */
     UserBaseInfoVo getUserBaseInfo();
 
+    /**
+     * 查询所有的用户, 直接使用mybatis-plus 获取的话, 会忽略已经被逻辑删除的记录
+     */
     Account getAccountIgnoreIsDelete(Long accountId);
 
     void updateIsDeleteById(Long accountId, Integer val);
 
+    /**
+     * 根据填写的信息注册用户
+     * @param registerVo
+     */
     void registerAccount(RegisterVo registerVo);
 
     void createAccount(String username, String password, Integer registerType);

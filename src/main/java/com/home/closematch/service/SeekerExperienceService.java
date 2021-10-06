@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface SeekerExperienceService extends IService<SeekerExperience> {
     /**
-     * 获取seeker就职经历 ; 自己填写的和其他goon公司hr提交的
+     * 获取seeker就职经历 ; 自己填写的和其他公司hr提交的
      * @param seekerId
      * @return
      */

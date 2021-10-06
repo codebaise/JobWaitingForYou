@@ -1,6 +1,5 @@
 package com.home.closematch.service.impl;
 
-import com.home.closematch.entity.Position;
 import com.home.closematch.entity.vo.CompanyDetailInfoVo;
 import com.home.closematch.pojo.PagePositionHr;
 import com.home.closematch.service.CompanyService;
@@ -28,7 +27,7 @@ class CompanyServiceImplTest {
 
     @Test
     void getCompanysList() {
-        companyService.getCompanysList(1);
+        companyService.getCompanyList(1);
         System.out.println();
     }
 }

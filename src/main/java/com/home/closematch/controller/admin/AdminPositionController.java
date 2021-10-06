@@ -16,6 +16,9 @@ public class AdminPositionController {
     @Autowired
     private PositionService positionService;
 
+    /**
+     * 审核hr发布的职位信息
+     */
     @PutMapping("/backStageManagement/position/{positionId}")
     public Msg changePositionStatus(@PathVariable("positionId") Long positionId, @RequestParam("status") Integer status){
         positionService.changePositionStatusByPositionId(positionId, status);

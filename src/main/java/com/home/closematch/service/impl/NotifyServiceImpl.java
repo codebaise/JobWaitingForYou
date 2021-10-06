@@ -31,11 +31,14 @@ public class NotifyServiceImpl extends ServiceImpl<NotifyMapper, Notify>
     @Autowired
     private JobSeekerService jobSeekerService;
 
+    /**
+     * 全局通知
+     */
     @Override
     public void sendGlobalMessage(NotifyMessageVo notifyMessageVo) {
-        // 埋坑, 日后需要私聊 , 查询notify的时候需要加上一个判断即可
+        // TODO: 日后需要私聊 , 查询notify的时候需要加上一个判断即可
         // 判断 sender id / receive id 为两个id 相互对一个即可, 没必要必须位置也统一
-        // 埋坑: 处理私聊
+        // TODO: 处理私聊
         // 消息类型:announcement公告/remind提醒/message私信
         Notify notify = null;
         if ("message".equals(notifyMessageVo.getType())) {
@@ -50,7 +53,7 @@ public class NotifyServiceImpl extends ServiceImpl<NotifyMapper, Notify>
             notify = new Notify(null, notifyMessageVo.getSenderId(), notifyMessageVo.getSenderId(), notifyMessageVo.getType(), false);
             notifyMapper.insert(notify);
         }
-        // 埋坑, 真正的定时任务, 在这里加入到定时任务中去
+        // TODO 真正的定时任务, 在这里加入到定时任务中去
         if (notify.getId() != null) {
             Message message = new Message(null, notify.getId(), notifyMessageVo.getSenderId(),
                     notifyMessageVo.getReceiveId(), notifyMessageVo.getTitle(), notifyMessageVo.getContent(),

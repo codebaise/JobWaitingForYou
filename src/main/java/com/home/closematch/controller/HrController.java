@@ -78,6 +78,7 @@ public class HrController {
     @PostMapping("/hr/position")
     public Msg saveOrUpdatePosition(@RequestBody @Validated Position position) {
         Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 这条应该可是注释掉
         humanresoucresService.checkHrInfoEnrolCondition(account.getUserId());
         positionService.saveOrUpdatePosition(account.getUserId(), position);
         return Msg.success();
@@ -131,6 +132,7 @@ public class HrController {
     @GetMapping("/hr/position/deliver/{deliverId}/workExperience/comment")
     public Msg hrGetWorkExperienceComment(@PathVariable("deliverId") Long deliverId) {
         Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // 获取求职者的信息之前, 先看看是否有权利进行信息获取
         SeekerDeliver seekerDeliver = jobSeekerService.checkSeekerRelationOfHr(account.getUserId(), deliverId);
         return Msg.success().add("items", positionService.getPositionComments(seekerDeliver.getSeekId(), seekerDeliver.getPositionId()));
     }

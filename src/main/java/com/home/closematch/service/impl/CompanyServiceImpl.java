@@ -104,11 +104,18 @@ implements CompanyService{
         reviewAdviseService.save(cmReviewAdvise);
     }
 
+    /**
+     * 审核通过
+     * @param companyId
+     */
     @Override
     public void accessCompanyByCompanyId(Long companyId) {
         changeCompanyAuditStatus(companyId, CompanyUtils.COMPANY_AUDIT_TYPE_ACCESS);
     }
 
+    /**
+     * 获取公司相应的审核记录, 评论信息
+     */
     @Override
     public List<ReviewHistoryDTO> getCompanyReviewHistory(Long companyId) {
         List<CmReviewAdvise> cmReviewAdvises = reviewAdviseService.list(new QueryWrapper<CmReviewAdvise>()
@@ -155,13 +162,15 @@ implements CompanyService{
     }
 
     /**
+     * 前台展示的信息
      * 获取公司的几个hr信息, 默认只拉取三个即可
      * @param companyId
      * @return
      */
     @Override
     public List<CompanyHrVo> getCompanyHrs(Long companyId) {
-        List<Humanresoucres> hrList = humanresoucresService.list(new QueryWrapper<Humanresoucres>().eq("company_id", companyId).last("limit 3"));
+        List<Humanresoucres> hrList =
+                humanresoucresService.list(new QueryWrapper<Humanresoucres>().eq("company_id", companyId).last("limit 3"));
         if (hrList.size() <=0 )
             throw new ServiceErrorException(400, "公司资料不全, 正在修补");
         List<CompanyHrVo> companyHrVos = new ArrayList<>();
@@ -177,11 +186,8 @@ implements CompanyService{
     }
 
     /**
-     * 获取公司的在招职位列表, 因为在基础页面也需要显示几个, 则用limit 限制
-     *
-     * @param companyId
-     * @param limit
-     * @return
+     * 获取公司的在招职位列表
+     * 因为在公司详情的基础页面也需要显示几个, 则用limit 限制
      */
     @Override
     public PagePositionHr getCompanyPositions(Long companyId, boolean limit, int page) {
@@ -227,13 +233,16 @@ implements CompanyService{
         return pagePositionHr;
     }
 
+    /**
+     * 获取公所列表
+     */
     @Override
-    public PageCompanys getCompanysList(int page) {
+    public PageCompanys getCompanyList(int page) {
         // 获取所有的公司列表
         PageCompanys companyPage = companyMapper.selectPage(new PageCompanys(page, CommonUtils.perPageSize), new QueryWrapper<Company>().eq("audit_status", CompanyUtils.COMPANY_AUDIT_TYPE_ACCESS));
         List<Company> companyList = companyPage.getRecords();
         // 通过每个公司查hr
-        List<CompanysVo> companysVos = new ArrayList<>();
+        List<CompanysVo> companyVos = new ArrayList<>();
         for (Company company: companyList){
             List<Humanresoucres> hrs = humanresoucresService.list(new QueryWrapper<Humanresoucres>().eq("company_id", company.getId()));
             if (hrs.size() == 0)
@@ -254,14 +263,18 @@ implements CompanyService{
             companysVo.setPositionId(positions.get(0).getId());
             companysVo.setPositionName(positions.get(0).getPositionName());
             companysVo.setMinSalary(positions.get(0).getMinSalary());
-            companysVos.add(companysVo);
+            companyVos.add(companysVo);
         }
 
-        companyPage.setCompanysVos(companysVos);
+        companyPage.setCompanysVos(companyVos);
         companyPage.setRecords(null);
         return companyPage;
     }
-
+    /**
+     * 通过positionId获取公司详情信息
+     * 和上面的方法功能一样, 其中调用了该方法
+     * 只不过多了一次方法方法
+     */
     @Override
     public CompanyDetailInfoVo getCompanyDetailInfoByPositionId(Long positionId) {
         Position position = positionService.getById(positionId);
@@ -274,14 +287,14 @@ implements CompanyService{
 
     /**
      * 私有方法, 改变公司的审核状态
-     * @param companyId
-     * @param setAuditStauts
+     * @param companyId 欲设置公司id
+     * @param setAuditStatus 欲设置的状态
      */
-    private void changeCompanyAuditStatus(Long companyId, Integer setAuditStauts) {
+    private void changeCompanyAuditStatus(Long companyId, Integer setAuditStatus) {
         Company company = companyMapper.selectById(companyId);
         if (company == null)
             throw new ServiceErrorException(404, "Not fount the company");
-        company.setAuditStatus(setAuditStauts);
+        company.setAuditStatus(setAuditStatus);
         companyMapper.updateById(company);
     }
 }

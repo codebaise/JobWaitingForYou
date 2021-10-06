@@ -47,6 +47,10 @@ public class NotifyController {
         return Msg.success().add("items", messageService.getUserSelfMessage(page, account.getUserId(), account.getUserType()));
     }
 
+    /**
+     * 用于未读message的获取
+     * @return
+     */
     @GetMapping("/message/remind/count")
     public Msg getMessageNotReadCount() {
         Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

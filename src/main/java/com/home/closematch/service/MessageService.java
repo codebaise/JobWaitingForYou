@@ -13,5 +13,11 @@ public interface MessageService extends IService<Message> {
 
     IPage<BaseMessageDTO> getUserSelfMessage(Integer page, Long userId, Integer userType) ;
 
+    /**
+     * 获取未读取的消息数量
+     * @param userId
+     * @param userType
+     * @return
+     */
     int getMessageNotReadCount(Long userId, Integer userType);
 }

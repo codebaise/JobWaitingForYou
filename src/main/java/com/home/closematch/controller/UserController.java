@@ -25,8 +25,13 @@ public class UserController {
     private AccountService accountService;
     @Autowired
     private MailService mailService;
+
+    /**
+     * 整合到了Spring Security 不再使用
+     */
     @ApiOperation("Login")
     @PostMapping("/login")
+    @Deprecated
     public Msg login(@RequestBody Account account) {
         return Msg.success().add("token", accountService.login(account));
     }

@@ -34,7 +34,6 @@ implements MessageService{
 
     @Override
     public IPage<BaseMessageDTO> getGlobalMessage(Integer page) {
-        // 埋坑: 这里应该获取以下自身id' pass 因为是全局通知, 所以没必要获取id
         return messageMapper.getGlobalMessage(new Page<>(page, CommonUtils.perPageSize));
     }
 

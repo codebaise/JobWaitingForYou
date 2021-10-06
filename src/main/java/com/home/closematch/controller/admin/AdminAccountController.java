@@ -20,7 +20,10 @@ public class AdminAccountController {
     @Autowired
     private SysAdminService sysAdminService;
 
-    // 改变账户状态
+    /*
+          admin 操作
+          修改其余账户的一个可用状态
+     */
     @PutMapping("/backStageManagement/account/{accountId}")
     public Msg changeUserAccountStatus(@PathVariable("accountId") Long accountId){
 
@@ -31,12 +34,18 @@ public class AdminAccountController {
     }
 
 //    @CrossOrigin(value = "http://localhost:9528")
+
+    /**
+     * 统一Spring Security接口, 将这个接口废弃
+     */
+    @Deprecated
     @PostMapping(value = "/backStageManagement/login")
     public Msg login(@RequestBody(required = false) SysAdmin cmSysAdmin){
         if (cmSysAdmin == null)
             return Msg.fail(400, "Other Error");
 
-        return Msg.success("success").add("token", sysAdminService.loginToBackStage(cmSysAdmin.getUsername(), cmSysAdmin.getPassword()));
+        return Msg.success("success").add("token",
+                sysAdminService.loginToBackStage(cmSysAdmin.getUsername(), cmSysAdmin.getPassword()));
 
     }
 }

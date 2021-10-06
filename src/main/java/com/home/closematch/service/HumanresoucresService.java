@@ -31,5 +31,9 @@ public interface HumanresoucresService extends IService<Humanresoucres> {
      */
     HrCompanyDTO getHrInfoWithCompany(Account account);
 
+    /**
+     * 查看当前hr个人信息填写的情况
+     * 只要不是0就行, 不是0说明已经填写了相应的信息
+     */
     boolean checkHrInfoEnrolCondition(Long hrId);
 }

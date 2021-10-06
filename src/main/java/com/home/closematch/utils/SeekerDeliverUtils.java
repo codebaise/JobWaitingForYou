@@ -1,5 +1,8 @@
 package com.home.closematch.utils;
 
+/**
+ * 对投递和审批求职申请时发送的通知消息进行格式化
+ */
 public class SeekerDeliverUtils {
     private SeekerDeliverUtils() {}
     public static final Integer STATUS_CHECK_WAIT = 0;

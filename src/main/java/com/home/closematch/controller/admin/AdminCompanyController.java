@@ -23,14 +23,16 @@ public class AdminCompanyController {
      */
     @GetMapping("/backStageManagement/companies")
     public Msg getCompanyList(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "auditStatus", defaultValue = "-1") Integer auditStatus){
-        return Msg.success("success").add("items", companyService.getCompanyListWithAuditStatus(page, auditStatus));
+        return Msg.success("success").add("items",
+                companyService.getCompanyListWithAuditStatus(page, auditStatus));
     }
     /**
-    * 公司审核通过
+    * 公司为审核通过
+     * @Param 封装{comment: "test", companyId: "3"}
     */
     @DeleteMapping("/backStageManagement/company")
     public Msg accessCompany(@RequestBody Map<String, Object> map) {
-        System.out.println(map);
+//        System.out.println(map);
         if (map.get("companyId") == null && map.get("comment") == null){
             return Msg.fail(400, "Parameter List so litter");
         }
@@ -39,7 +41,7 @@ public class AdminCompanyController {
     }
 
     /**
-     * 公司未审核通过
+     * 公司审核通过
      */
     @PutMapping("/backStageManagement/company/{companyId}")
     public Msg banCompany(@PathVariable("companyId") Long companyId) {

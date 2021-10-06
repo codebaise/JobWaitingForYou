@@ -2,7 +2,6 @@ package com.home.closematch.controller;
 
 import com.home.closematch.entity.Account;
 import com.home.closematch.entity.Company;
-import com.home.closematch.entity.Humanresoucres;
 import com.home.closematch.pojo.Msg;
 import com.home.closematch.service.CompanyService;
 import io.swagger.annotations.Api;
@@ -33,16 +32,18 @@ public class CompanyController {
     }
 
     @ApiOperation(value = "获取公司的position信息",
-            notes = "公司详情页面调用, 通过limie判断是否获取少量的这个列表")
+            notes = "公司详情页面调用, 通过limit判断是否获取少量的这个列表")
     @GetMapping("/company/{companyId}/positions")
-    public Msg getCompanyBitsPositions(@PathVariable Long companyId,@RequestParam(value = "page", defaultValue = "1") int page,@RequestParam(value = "limit", defaultValue = "false") boolean limit) {
+    public Msg getCompanyBitsPositions(@PathVariable Long companyId,
+                                       @RequestParam(value = "page", defaultValue = "1") int page,
+                                       @RequestParam(value = "limit", defaultValue = "false") boolean limit) {
         return Msg.success().add("pageInfo", companyService.getCompanyPositions(companyId, limit, page));
     }
 
     @ApiOperation(value = "获取公司列表", notes = "公司列表页面调用")
     @GetMapping("/companys")
     public Msg getCompanys(@RequestParam(defaultValue = "1") int page) {
-        return Msg.success().add("pageInfo", companyService.getCompanysList(page));
+        return Msg.success().add("pageInfo", companyService.getCompanyList(page));
     }
 
     @ApiOperation(value = "获取公司详情信息",

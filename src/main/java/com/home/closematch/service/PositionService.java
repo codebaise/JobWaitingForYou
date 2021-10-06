@@ -87,6 +87,7 @@ public interface PositionService extends IService<Position> {
 
     /**
      * 获取职位的详情信息
+     * 就是在职位列表点进去之后就可以查看到的信息
      * 其实再company的那里, 有一个类似方法, 中间方法体基本一样, 返回的是list 所以不适用
      */
      PositionDetailInfoVo getPositionDetailInfoById(Long positionId);

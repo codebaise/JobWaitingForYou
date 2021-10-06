@@ -1,6 +1,5 @@
 package com.home.closematch.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.home.closematch.entity.*;
@@ -119,6 +118,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
     }
 
     /**
+     * hr 查看其他hr对当前求职者的评论信息
      * 获取positionId 对应的评论
      */
     @Override
@@ -127,7 +127,8 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
     }
 
     /**
-     * 分页获取职位列表, 后期加入筛选功能
+     * 分页获取所有职位列表
+     * TODO : 加入筛选功能
      *
      * @param page
      * @return
@@ -165,6 +166,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
 
     /**
      * 获取职位的详情信息
+     * 就是在职位列表点进去之后就可以查看到的信息
      * 其实再company的那里, 有一个类似方法, 中间方法体基本一样, 返回的是list 所以不适用
      *
      * @param positionId
@@ -214,6 +216,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
     @Override
     public void saveOrUpdatePosition(Long hrId, Position position) {
         boolean result = humanresoucresService.checkHrInfoEnrolCondition(hrId);
+        // 如果 = 0 说明还没有填写信息, 那么是允许插入一条记录的
         if (!result) {
             Integer hr_id = positionMapper.selectCount(new QueryWrapper<Position>().eq("hr_id", hrId));
             // 判断已经发布职位是否为 0
@@ -232,7 +235,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, Position>
 
         positionMapper.updateById(position);
     }
-
+   // 获取 hrId 对应的hr发布的所有职位
     @Override
     public List<Position> getPublishPosition(Long hrId) {
         return positionMapper.selectList(new QueryWrapper<Position>()
